@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure login or registration for SearchToSee - Image Search Engine">
+    <meta name="theme-color" content="#28f7fe">
+    <title>SearchToSee - Authentication</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="auth.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <canvas id="cursorCanvas"></canvas>
+    <div class="top-buttons-row">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <div class="toggle-inner">
+                <i class="fas fa-sun sun-icon"></i>
+                <i class="fas fa-moon moon-icon"></i>
+            </div>
+        </button>
+        <button class="cursor-toggle" id="cursor-toggle" aria-label="Toggle cursor effect">
+            <div class="toggle-inner">
+                <i class="fas fa-wand-magic-sparkles"></i>
+            </div>
+        </button>
+        <button id="login-trigger" class="auth-open-button login-button" aria-label="Login">
+            <div class="toggle-inner">
+                <i class="fas fa-user"></i>
+            </div>
+        </button>
+    </div>
+
+    <header>
+        <h1>
+            <i class="fas fa-camera"></i>
+            <span class="word word1">Search</span>
+            <span class="word word2">To</span>
+            <span class="word word3">See</span>
+        </h1>
+        <div class="slogan-text">
+            Welcome to Search To See – Your Gateway to Stunning Visual Inspiration!<br>
+            Unlock a world of breathtaking images powered by Unsplash. Join our community to access, save, and share your favorite visuals.Dive in and start exploring now!
+        </div>
+        <p class="subtitle">Powered by Unsplash</p>
+        <button id="main-page-btn" class="main-page-btn">Go to Main Page</button>
+    </header>
+
+    <section class="vertical-gallery">
+        <div class="gallery-row left">
+            <div class="gallery-img-container">
+                <img src="images/1.jpg" alt="Neon Adventure">
+                <div class="gallery-text">Dive into a neon-lit adventure! Find electrifying scenes like this on SearchToSee. Search now and let your imagination glow!</div>
+            </div>
+        </div>
+        <div class="gallery-row right">
+            <div class="gallery-img-container">
+                <img src="images/2.jpg" alt="Tropical Sunset">
+                <div class="gallery-text">Bask in the warmth of a tropical sunset. Discover breathtaking landscapes on SearchToSee. Start your visual journey today!</div>
+            </div>
+        </div>
+        <div class="gallery-row left">
+            <div class="gallery-img-container">
+                <img src="images/3.jpg" alt="Urban Nightlife">
+                <div class="gallery-text">Experience the vibrant energy of urban nightlife. SearchToSee brings you the pulse of the city. Join the excitement!</div>
+            </div>
+        </div>
+        <div class="gallery-row right">
+            <div class="gallery-img-container">
+                <img src="images/4.jpg" alt="Mountain Majesty">
+                <div class="gallery-text">Stand in awe of mountain majesty. Find your next adventure on SearchToSee. Explore the peaks and valleys of possibility!</div>
+            </div>
+        </div>
+        <div class="gallery-row left">
+            <div class="gallery-img-container">
+                <img src="images/5.jpg" alt="Cosmic Wonders">
+                <div class="gallery-text">Gaze into the wonders of the cosmos. SearchToSee offers a universe of images. Let your curiosity take flight!</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal overlay -->
+    <div id="auth-modal" class="auth-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close">&times;</span>
+            <!-- Login Form -->
+            <div id="loginForm" class="auth-form">
+                <h2 class="auth-title">Login</h2>
+                <div class="auth-field">
+                    <div class="auth-input-icon"><i class="fas fa-envelope"></i></div>
+                    <input type="email" placeholder="Email" class="auth-input" id="login-email">
+                </div>
+                <div class="auth-field">
+                    <div class="auth-input-icon"><i class="fas fa-lock"></i></div>
+                    <input type="password" placeholder="Password" class="auth-input" id="login-password">
+                </div>
+                <button type="button" class="auth-button" id="login-btn">Log In</button>
+                <p class="auth-footer">Don't have an account? <a href="#" id="toRegister">Register</a></p>
+            </div>
+            <!-- Register Form -->
+            <div id="registerForm" class="auth-form" style="display: none;">
+                <h2 class="auth-title">Register</h2>
+                <div class="auth-field">
+                    <div class="auth-input-icon"><i class="fas fa-user"></i></div>
+                    <input type="text" placeholder="Username" class="auth-input" id="register-username">
+                </div>
+                <div class="auth-field">
+                    <div class="auth-input-icon"><i class="fas fa-envelope"></i></div>
+                    <input type="email" placeholder="Email" class="auth-input" id="register-email">
+                </div>
+                <div class="auth-field">
+                    <div class="auth-input-icon"><i class="fas fa-lock"></i></div>
+                    <input type="password" placeholder="Password" class="auth-input" id="register-password">
+                </div>
+                <button type="button" class="auth-button" id="register-btn">Sign Up</button>
+                <p class="auth-footer">Already have an account? <a href="#" id="toLogin">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created by Stiven Arifaj</p>
+        <div class="copyright">
+            <p>&copy;Copyright Stiven. All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <div id="custom-notify" class="custom-notify"></div>
+</body>
+</html>
