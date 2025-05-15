@@ -241,7 +241,7 @@ const db = firebase.firestore();
 
 // 2) Helpers: redirect on success
 function redirectToMain() {
-  window.location.href = 'index.html';
+  window.location.href = 'main.html';
 }
 
 // 3) Registration: create Auth user & Firestore document
