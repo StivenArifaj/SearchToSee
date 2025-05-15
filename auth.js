@@ -327,3 +327,19 @@ function showNotify(message) {
         notify.classList.remove('show');
     }, 3500);
 }
+
+document.getElementById('forgot-password-link').addEventListener('click', function(e) {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value.trim();
+  if (!email) {
+    showNotify("Please enter your email above first.");
+    return;
+  }
+  auth.sendPasswordResetEmail(email)
+    .then(() => {
+      showNotify("Password reset email sent! Check your inbox.");
+    })
+    .catch((error) => {
+      showNotify(error.message);
+    });
+});
