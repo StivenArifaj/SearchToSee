@@ -229,11 +229,11 @@ document.getElementById('main-page-btn').addEventListener('click', function() {
 
 // 1) Firebase initialization
 const firebaseConfig = {
-  apiKey: "AIzaSyAkLHSR24G49ekGdy20xRK1YSCYJxPv3Tc",
-  authDomain: "search-to-see.firebaseapp.com",
-  projectId: "search-to-see",
-  storageBucket: "search-to-see.appspot.com",
-  messagingSenderId: "966951407002",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();

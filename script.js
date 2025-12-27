@@ -1,4 +1,4 @@
-const accessKey = "yN0XQzAbgTCfVqsx4bQOtNnpvnWSUHrGhXHwUhf_zA0";
+const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
 const searchForm = document.getElementById("search-form");
 const searchBox = document.getElementById("search-box");
@@ -51,15 +51,15 @@ const showError = (message) => {
 async function searchImages() {
     try {
         if (isLoading) return;
-        
+
         keyword = searchBox.value.trim();
         if (!keyword) return;
 
         showLoading();
-        
+
         const url = `https://api.unsplash.com/search/photos?page=${page}&query=${encodeURIComponent(keyword)}&client_id=${accessKey}&per_page=12`;
         const response = await fetch(url);
-        
+
         if (!response.ok) {
             hideLoading();
             throw new Error('Failed to fetch images');
@@ -67,13 +67,13 @@ async function searchImages() {
 
         const data = await response.json();
         hideLoading(); // Hide loading after data is received
-        
+
         if (page === 1) {
             searchResult.innerHTML = "";
         }
 
         const results = data.results;
-        
+
         if (results.length === 0 && page === 1) {
             showError("No images found. Try a different search term.");
             showMoreBtn.style.display = "none";
@@ -83,19 +83,19 @@ async function searchImages() {
         results.forEach(result => {
             const imageWrapper = document.createElement("div");
             imageWrapper.className = "image-wrapper";
-            
+
             const imageLink = document.createElement("a");
             imageLink.href = result.links.html;
             imageLink.target = "_blank";
-            
+
             const image = document.createElement("img");
             image.src = result.urls.regular;
             image.alt = result.alt_description || keyword;
-            
+
             imageLink.appendChild(image);
             imageWrapper.appendChild(imageLink);
             searchResult.appendChild(imageWrapper);
-            
+
             setTimeout(() => {
                 imageWrapper.style.opacity = "1";
             }, 100);
@@ -129,12 +129,12 @@ showMoreBtn.addEventListener("click", () => {
 cursorToggle.addEventListener('click', () => {
     isCursorAnimationEnabled = !isCursorAnimationEnabled;
     cursorToggle.classList.toggle('active');
-    
+
     // Add ripple effect
     const ripple = document.createElement('div');
     ripple.className = 'ripple';
     cursorToggle.appendChild(ripple);
-    
+
     setTimeout(() => {
         ripple.remove();
     }, 1000);
@@ -180,8 +180,8 @@ class Particle {
 
     getRandomColor() {
         const theme = document.documentElement.getAttribute('data-theme');
-        const colors = theme === 'dark' 
-            ? ['#7f8ce2', '#5e60ce', '#6f7dae', '#7400b8'] 
+        const colors = theme === 'dark'
+            ? ['#7f8ce2', '#5e60ce', '#6f7dae', '#7400b8']
             : ['#8ecae6', '#95d5b2', '#b7e4c7', '#a8dadc'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
@@ -191,14 +191,14 @@ class Particle {
         this.angle += 0.05;
         this.x = this.baseX + Math.cos(this.angle) * 2 * this.density;
         this.y = this.baseY + Math.sin(this.angle) * 2 * this.density;
-        
+
         // Drift effect
         this.baseX += Math.sin(this.angle * 0.02) * 0.8;
         this.baseY -= 0.5; // Gentle upward drift
-        
+
         // Fade out
         this.life -= 0.012;
-        
+
         // Size pulsing
         this.size = (Math.sin(this.angle * 0.5) + 2) * 2;
     }
@@ -223,11 +223,11 @@ let moveTimeout;
 // Track mouse movement
 document.addEventListener('mousemove', (e) => {
     if (!isCursorAnimationEnabled) return;
-    
+
     mouseX = e.clientX;
     mouseY = e.clientY;
     isMoving = true;
-    
+
     // Create particles on mouse move
     for (let i = 0; i < 2; i++) {
         particles.push(new Particle(mouseX, mouseY));
@@ -272,15 +272,15 @@ html.setAttribute('data-theme', savedTheme);
 themeToggle.addEventListener('click', () => {
     const currentTheme = html.getAttribute('data-theme');
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
+
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
-    
+
     // Add ripple effect
     const ripple = document.createElement('div');
     ripple.className = 'ripple';
     themeToggle.appendChild(ripple);
-    
+
     setTimeout(() => {
         ripple.remove();
     }, 1000);
@@ -353,4 +353,4 @@ document.head.appendChild(style);
 
 
 
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="4kx84c2Rx0-N1LYwY5kVS";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+(function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "4kx84c2Rx0-N1LYwY5kVS"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
