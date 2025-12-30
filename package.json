@@ -1,0 +1,22 @@
+{
+  "name": "searchtosee",
+  "version": "1.0.0",
+  "description": "A powerful image search engine powered by Unsplash API with Firebase authentication",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "image-search",
+    "unsplash",
+    "firebase",
+    "authentication"
+  ],
+  "author": "Stiven Arifaj",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
